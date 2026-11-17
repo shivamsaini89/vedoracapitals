@@ -15,7 +15,7 @@ Set the provider's build command to `npm ci && npm run build` and start command 
 
 ## Vercel
 
-This repository includes `api/[...path].js`, which exposes the existing Express API as a Vercel Node function. Vercel can continue to build the Vite frontend from `npm run build`; the function handles `/api/health` and `/api/enquiries`.
+This repository includes `api/[...path].js`, which exposes the existing Express API as a Vercel Node function. `vercel.json` includes the logo asset required by inline enquiry emails. Vercel can continue to build the Vite frontend from `npm run build`; the function handles `/api/health` and `/api/enquiries`.
 
 1. Import the GitHub repository into Vercel and leave the Vite framework preset and `dist` output directory enabled.
 2. Add `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, and `ENQUIRY_TO` under the project's server-side environment variables for Production (and Preview if needed). Do not prefix SMTP variables with `VITE_`.
