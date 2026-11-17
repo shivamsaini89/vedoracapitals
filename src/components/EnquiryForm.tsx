@@ -129,6 +129,10 @@ export function EnquiryForm() {
         }),
         signal: controller.signal,
       });
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('The enquiry service is unavailable on this deployment. Please contact us directly.');
+      }
       const result = await response.json() as { ok?: boolean; error?: string };
       if (!response.ok || !result.ok) {
         throw new Error(result.error || 'We could not send your enquiry. Please try again later.');

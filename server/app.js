@@ -9,18 +9,20 @@ const projectRoot = path.dirname(fileURLToPath(new URL('../package.json', import
 const app = express();
 
 app.disable('x-powered-by');
-app.use('/api', rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false,
-  message: { error: 'Too many requests. Please wait a while and try again.' },
-}));
 app.use(express.json({ limit: '16kb' }));
 
 app.get('/api/health', (_request, response) => {
   response.json({ ok: true, mailConfigured });
 });
+
+app.use('/api/enquiries', rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  skipFailedRequests: true,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { error: 'Too many enquiries were submitted from this connection. Please wait a few minutes before trying again.' },
+}));
 
 app.use('/api/enquiries', createEnquiriesRouter({
   transporter,
